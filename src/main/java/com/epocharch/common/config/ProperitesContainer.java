@@ -1,5 +1,18 @@
-/**
- * 
+
+/*
+ * Copyright 2017 EpochArch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.epocharch.common.config;
 
@@ -27,8 +40,9 @@ public class ProperitesContainer {
 	private static Logger logger = LoggerFactory.getLogger(ProperitesContainer.class);
 	public Map<String,Properties> pMap;
 	public Properties eaProperties;
-	private static ProperitesContainer pContainer = new ProperitesContainer();
 	private static String fileName = InternalConstants.PROPERITIES_FILE_NAME;
+	private static ProperitesContainer pContainer = new ProperitesContainer();
+
 
 	public static synchronized ProperitesContainer getInstance() {
 		return pContainer;
@@ -41,17 +55,21 @@ public class ProperitesContainer {
 		eaProperties.put(PropKey.JVM_PID, SystemUtil.getJvmPid());
 		eaProperties.put(PropKey.HOST_IP, SystemUtil.getLocalhostIp());
 		pMap.put(InternalConstants.NAMESPACE_EPOCHARCH, eaProperties);
-		load();
+		String fpath = System.getProperty(InternalConstants.PROPERITIES_PATH_KEY);
+		loadProperties(fpath, InternalConstants.NAMESPACE_EPOCHARCH);
 	}
 
-
-	public void loadFromClassPath() {
+	/**
+	 * Load file properites into specify namespace
+	 * @param filePath
+	 * @param namespace
+	 */
+	public void loadProperties(String filePath,String namespace) {
 		InputStream input = null;
-		Properties p = new Properties();
-		String path = System.getProperty(InternalConstants.PROPERITIES_PATH_KEY);
+		Properties fp = new Properties();
 		try {
-			if (path != null) {
-				File file = new File(path);
+			if (filePath != null) {
+				File file = new File(filePath);
 				if (file.exists()) {
 					input = new FileInputStream(file);
 				} else {
@@ -61,9 +79,14 @@ public class ProperitesContainer {
 				input = loadFileFromClasspath();
 			}
 			if (input != null) {
-				p.load(input);
-				if (!p.isEmpty()) {
-					eaProperties.putAll(p);
+				fp.load(input);
+				if (!fp.isEmpty()) {
+					Properties cp = pMap.get(namespace);
+					if(cp!=null){
+						cp.putAll(fp);
+					}else{
+						pMap.put(namespace,fp);
+					}
 				} else {
 					if (logger.isDebugEnabled()) {
 						logger.debug("Load properties file:" + fileName + " failed!!!");
@@ -82,6 +105,7 @@ public class ProperitesContainer {
 			}
 		}
 	}
+
 
 	private InputStream loadFileFromClasspath() throws IOException {
 		InputStream input = null;
@@ -103,13 +127,6 @@ public class ProperitesContainer {
 		return input;
 	}
 
-	public void load() {
-		loadFromClassPath();
-		loadFromExternal();
-	}
-
-	private void loadFromExternal() {
-	}
 
 	public String getPropertyByNameSpace(String nameSpace,String key){
 		String value = null;

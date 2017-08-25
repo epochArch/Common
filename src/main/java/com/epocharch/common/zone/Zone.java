@@ -1,10 +1,39 @@
-/**
- * 
+
+/*
+ * Copyright 2017 EpochArch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * Copyright 2017 EpochArch.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.epocharch.common.zone;
 
 import com.epocharch.common.constants.DeployLevel;
-import com.epocharch.common.constants.ZkClusterUsage;
+import com.epocharch.common.constants.ClusterUsage;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -18,7 +47,7 @@ public class Zone implements Serializable {
 	private static final long serialVersionUID = -3449736799079134998L;
 	private String name;
 	private String alias;
-	private Map<ZkClusterUsage, String> zkClusterMap = new HashMap<ZkClusterUsage, String>();
+	private Map<ClusterUsage, String> zkClusterMap = new HashMap<ClusterUsage, String>();
 	private Map<String,String> extZkClusterMap = new HashMap<String, String>();
 	private double longtitude;
 	private double latitude;
@@ -33,7 +62,7 @@ public class Zone implements Serializable {
 		super();
 	}
 
-	public Zone(String name, String alias, Map<ZkClusterUsage, String> zkClusterMap, double longtitude, double latitude,
+	public Zone(String name, String alias, Map<ClusterUsage, String> zkClusterMap, double longtitude, double latitude,
 			String platformName, long bandwidthIn, long bandwidthOut, String platform, String desc) {
 		super();
 		this.name = name;
@@ -65,11 +94,11 @@ public class Zone implements Serializable {
 		this.alias = alias;
 	}
 
-	public Map<ZkClusterUsage, String> getZkClusterMap() {
+	public Map<ClusterUsage, String> getZkClusterMap() {
 		return zkClusterMap;
 	}
 
-	public void setZkClusterMap(Map<ZkClusterUsage, String> zkClusterMap) {
+	public void setZkClusterMap(Map<ClusterUsage, String> zkClusterMap) {
 		this.zkClusterMap = zkClusterMap;
 	}
 
@@ -121,14 +150,14 @@ public class Zone implements Serializable {
 		this.desc = desc;
 	}
 
-	public String getZkClusterByUsage(ZkClusterUsage usage) {
+	public String getZkClusterByUsage(ClusterUsage usage) {
 		return zkClusterMap.get(usage);
 	}
 
 	public String getZkClusterByUsageCode(String usageCode){
 		String serverList = null;
-		ZkClusterUsage usage = ZkClusterUsage.getByCode(usageCode);
-		if(!usage.equals(ZkClusterUsage.UNKNOWN)){
+		ClusterUsage usage = ClusterUsage.getByCode(usageCode);
+		if(!usage.equals(ClusterUsage.UNKNOWN)){
 			if(zkClusterMap!=null){
 				serverList = zkClusterMap.get(usage);
 			}
