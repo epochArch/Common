@@ -9,8 +9,8 @@
  * If your system already have config properties, PropertiesContainer.setAndMergeProperties(String namespace, Properties properties) method will be help to unify the config entry. 
  
  ## Deploy 
- DeployLevel.SITE
- DeployLevel.IDC
- DeployLevel.ZONE
+ * DeployLevel.SITE
+ * DeployLevel.IDC
+ * DeployLevel.ZONE
  
  ## Util
