@@ -16,8 +16,6 @@
 
 package com.epocharch.common.config;
 
-import java.util.Properties;
-
 /**
  * Created by archer on 24/08/2017.
  */
@@ -25,5 +23,5 @@ public interface IProperitesLoader {
 
 	public void loadProperites();
 
-	public void extendContainer(ProperitesContainer container);
+	public void extendContainer(PropertiesContainer container);
 }

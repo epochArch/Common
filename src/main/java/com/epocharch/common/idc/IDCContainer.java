@@ -16,7 +16,7 @@
  */
 package com.epocharch.common.idc;
 
-import com.epocharch.common.config.ProperitesContainer;
+import com.epocharch.common.config.PropertiesContainer;
 import com.epocharch.common.constants.DeployLevel;
 import com.epocharch.common.constants.PropKey;
 import com.epocharch.common.zone.Zone;
@@ -44,7 +44,7 @@ public class IDCContainer {
     public IDCContainer(Collection<Zone> zones)
     {
         refresh(zones);
-        localIdc = ProperitesContainer.getInstance().getProperty(PropKey.LOCAL_IDC_NAME);
+        localIdc = PropertiesContainer.getInstance().getProperty(PropKey.LOCAL_IDC_NAME);
     }
 
     public void refresh(Collection<Zone> zones){
